@@ -6,21 +6,24 @@ dotenv.config();
 const { Pool } = pkg;
 
 const pool = new Pool({
- user: process.env.POSTGRESQL_USER || 'postgres',
-  host: process.env.POSTGRESQL_HOST || 'localhost',
-  database: process.env.POSTGRESQL_DATABASE || 'booknotes',
+  user: process.env.POSTGRESQL_USER || "postgres",
+  host: process.env.POSTGRESQL_HOST || "localhost",
+  database: process.env.POSTGRESQL_DATABASE || "booknotes",
   password: process.env.POSTGRESQL_PASSWORD,
   port: parseInt(process.env.POSTGRESQL_PORT) || 5432,
   // OTIMIZAÇÕES DE PERFORMANCE
-  max: 20,                    // Máximo de conexões simultâneas
-  min: 2,                     // Mínimo de conexões ociosas
-  idleTimeoutMillis: 30000,   // Fechar conexões ociosas após 30s
+  max: 20, // Máximo de conexões simultâneas
+  min: 2, // Mínimo de conexões ociosas
+  idleTimeoutMillis: 30000, // Fechar conexões ociosas após 30s
   connectionTimeoutMillis: 2000, // Timeout de conexão: 2s
-  acquireTimeoutMillis: 60000,   // Timeout para pegar conexão do pool: 60s
+  acquireTimeoutMillis: 60000, // Timeout para pegar conexão do pool: 60s
   // POOLING INTELIGENTE
-  allowExitOnIdle: false,     // Não permitir saída em idle
+  allowExitOnIdle: false, // Não permitir saída em idle
   // SSL (para produção)
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  ssl:
+    process.env.NODE_ENV === "production"
+      ? { rejectUnauthorized: false }
+      : false,
 });
 
 pool.on("error", (err) => {
@@ -51,4 +54,8 @@ async function query(text, params, retries = 3) {
   }
 }
 
-export default { query };
+async function close() {
+  await pool.end();
+}
+
+export default { query, close };
