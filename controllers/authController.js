@@ -14,13 +14,16 @@ export const register = async (req, res) => {
 
     // Validações
     if (!email || !password) {
-      return res.status(400).json({ 
-        error: "E-mail e senha são obrigatórios" 
+      return res.status(400).json({
+        error: "E-mail e senha são obrigatórios",
       });
     }
 
     // Verificar se usuário existe
-    const existingUser = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+    const existingUser = await db.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email],
+    );
     if (existingUser.rows[0]) {
       return res.status(409).json({ error: "E-mail já está em uso" });
     }
@@ -32,17 +35,16 @@ export const register = async (req, res) => {
     // Criar usuário
     const newUser = await db.query(
       "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id",
-      [name, email, passwordHash]
+      [name, email, passwordHash],
     );
 
     const userId = newUser.rows[0].id;
-    
+
     res.status(201).json({
       message: "Usuário criado com sucesso",
       userId,
-      token: generateToken(userId)
+      token: generateToken(userId),
     });
-
   } catch (error) {
     console.error("Erro no registro:", error);
     res.status(500).json({ error: "Erro interno do servidor" });
@@ -58,7 +60,9 @@ export const login = async (req, res) => {
     }
 
     // Buscar usuário
-    const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+    const result = await db.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
     const user = result.rows[0];
 
     if (!user) {
@@ -74,10 +78,8 @@ export const login = async (req, res) => {
     res.status(200).json({
       message: "Login realizado com sucesso",
       userId: user.id,
-      profileImage: user.profileimage,
-      token: generateToken(user.id)
+      token: generateToken(user.id),
     });
-
   } catch (error) {
     console.error("Erro no login:", error);
     res.status(500).json({ error: "Erro interno do servidor" });
@@ -87,9 +89,12 @@ export const login = async (req, res) => {
 export const getCurrentUser = async (req, res) => {
   try {
     const userId = req.user.id;
-    const result = await db.query("SELECT id, name, email, profileimage FROM users WHERE id = $1", [userId]);
+    const result = await db.query(
+      "SELECT id, name, email FROM users WHERE id = $1",
+      [userId],
+    );
     const user = result.rows[0];
-    
+
     if (!user) {
       return res.status(404).json({ error: "Usuário não encontrado" });
     }
