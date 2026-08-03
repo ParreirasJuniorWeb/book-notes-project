@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - BookNotes</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="/dashboard" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Dashboard
+            </a>
+            <h1><i class="fas fa-user"></i> Meu Perfil</h1>
+        </div>
+    </header>
+
+    <!-- Profile Content -->
+    <main class="main">
+        <div class="container">
+            <div class="profile-card">
+                <% if (user.profileimage) { %>
+                    <img src="<%= user.profileimage %>" alt="Foto de perfil" class="profile-avatar">
+                <% } else { %>
+                    <div class="profile-avatar-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                <% } %>
+                
+                <div class="profile-info">
+                    <h2><%= user.name %></h2>
+                    <p class="profile-email"><%= user.email %></p>
+                    <div class="profile-stats">
+                        <span class="stat">
+                            <i class="fas fa-book"></i>
+                            <%= new Date().getFullYear() - new Date(user.created_at || Date.now()).getFullYear() %> ano(s) na plataforma
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="profile-actions">
+                <form method="POST" action="/logout" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </form>
+                <a href="/dashboard" class="btn btn-primary">
+                    <i class="fas fa-book"></i> Minhas Anotações
+                </a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

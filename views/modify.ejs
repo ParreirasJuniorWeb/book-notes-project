@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= heading %> - BookNotes</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="/dashboard" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </a>
+            <h1><%= heading %></h1>
+        </div>
+    </header>
+
+    <!-- Form -->
+    <main class="main">
+        <div class="container">
+            <form method="POST" action="<%= book ? `/books/${book.id}/update` : '/books' %>" 
+                  enctype="multipart/form-data" class="book-form">
+                
+                <div class="form-group">
+                    <label><i class="fas fa-book"></i> Título do Livro</label>
+                    <input type="text" name="title" value="<%= book?.title || '' %>" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-barcode"></i> ISBN</label>
+                        <input type="text" name="isbn" value="<%= book?.isbn || '' %>">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-star"></i> Nota (1-5)</label>
+                        <select name="recommendation_note">
+                            <option value="">Selecione</option>
+                            <% for(let i = 1; i <= 5; i++) { %>
+                                <option value="<%= i %>" <%= book?.recommendation_note == i ? 'selected' : '' %>>
+                                    <%= i %> <%= i === 1 ? 'estrela' : 'estrelas' %>
+                                </option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-calendar"></i> Data de Leitura</label>
+                    <input type="date" name="reading_dt" value="<%= book?.reading_dt?.split('T')[0] || '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-image"></i> Imagem da Capa (URL)</label>
+                    <input type="url" name="image" value="<%= book?.image || '' %>" placeholder="https://exemplo.com/capa.jpg">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-align-left"></i> Resumo</label>
+                    <textarea name="summary" rows="4" placeholder="Resumo do livro..."><%= book?.summary || '' %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-quote-left"></i> Recomendação</label>
+                    <textarea name="recommendation_text" rows="6" placeholder="O que você achou deste livro? Recomenda? Por quê?" required><%= book?.recommendation_text || '' %></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <a href="/dashboard" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> <%= submit %>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
