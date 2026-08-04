@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT_FRONTEND || 3000;
 const API_URL = process.env.API_URL || "http://localhost:4000";
 
 // Configurações
