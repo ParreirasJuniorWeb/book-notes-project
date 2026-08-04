@@ -1,13 +1,7 @@
-# TODO - Suíte de Testes Jest + Supertest + Postgres
+# TODO - Testes e Robustez de API (B e C)
 
-- [x] Extrair app Express para `app.js` e ajustar `index.js` para bootstrap
-- [x] Configurar Jest para ESM (`jest.config.js`)
-- [x] Atualizar `package.json` com scripts e devDependencies de teste
-- [x] Criar setup global de testes (`tests/setup.js`)
-- [x] Criar helper de banco para testes (`tests/helpers/testDb.js`)
-- [x] Implementar testes de integração de health (`tests/integration/health.test.js`)
-- [x] Implementar testes de integração de auth (`tests/integration/auth.test.js`)
-- [x] Implementar testes de integração de books (`tests/integration/books.test.js`)
-- [ ] Executar suíte e corrigir eventuais falhas de implementação
-- [x] Atualizar TODO concluindo etapas
-- [ ] Gerar relatório final completo dos testes
+- [x] B1. Padronizar erros de constraint de banco em booksController (unique/check/fk)
+- [x] B2. Validar tipo/faixa de recommendation_note no controller (create/update)
+- [ ] C1. Executar retestes curl para cenários de erro padronizados
+- [ ] C2. Executar reteste de fluxo create/update/delete com payload válido
+- [ ] C3. Atualizar RELATORIO_TESTES.md com evidências finais
