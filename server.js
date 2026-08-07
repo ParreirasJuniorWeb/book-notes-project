@@ -1,9 +1,12 @@
+import dotenv from "dotenv";
 import express from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
 import ejs from "ejs";
 import path from "path";
 import { fileURLToPath } from "url";
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,9 +19,8 @@ const API_URL = process.env.API_URL || "http://localhost:4000";
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Armazenar token globalmente (em produção use sessions/cookies seguros)
 let authToken = null;
@@ -84,7 +86,7 @@ app.post("/register", async (req, res) => {
   } catch (error) {
     console.error(
       "❌ Erro no registro:",
-      error.response?.data || error.message,
+      error,
     );
     res.render("register.ejs", {
       error: error.response?.data?.error || "Erro no registro",
@@ -217,7 +219,12 @@ app.get("/book/:id", async (req, res) => {
 
 // Criar nova anotação
 app.post("/books", async (req, res) => {
+  
   const bookPayload = { ...(req.body || {}) };
+
+  // DEBUG: log do payload recebido
+  // console.log(bookPayload); // {}  formulário está enviando os dados no formato correto.
+
   if (userId) {
     bookPayload.author_id = userId;
   }
@@ -250,7 +257,7 @@ app.post("/books", async (req, res) => {
   } catch (error) {
     console.error(
       "❌ Erro ao criar livro:",
-      error.response?.data || error.message,
+      error.response?.data?.error || error.message,
     );
     res.render("error.ejs", {
       error: error.response?.data?.error || "Erro ao criar anotação",

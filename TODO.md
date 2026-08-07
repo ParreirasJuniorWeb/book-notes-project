@@ -27,5 +27,21 @@
 ## E) Hotfix produção (Render) - login/registro
 - [x] Alterar frontend para usar `process.env.API_URL` em vez de URL fixa localhost
 - [x] Exibir API_URL efetiva no log de startup
-- [ ] Validar comportamento de login/registro após configuração no Render
-- [ ] Atualizar PR com hotfix
+- [X] Validar comportamento de login/registro após configuração no Render
+- [X] Atualizar PR com hotfix
+## F) Hotfix Desenvolvimento (projeto local) - cadastro/edição/esclusão de livros
+- [X] Veritifcar alguma inconsistência com o formato dos dados vindos do formulário de cadastro de livros e analisa-los para saber como estão chegando ao backend. 
+  - Formato esperado no backend: 
+  {
+    **title**: string,
+    **recommendation_text**: string,
+    **recommendation_note**: number (int),
+    **image**: string,
+    **reading_dt**: string (new Date())
+    **isbn**: string (20 caracteres)
+    **summary**: string,
+    **author_id**: number (int)
+  }
+- [X] Verificar se o formulário há alguma propriedade/valor, tal como 'multipart/form-data', que possa está impedindo a chegada dos dados no servidor Node.js/Express. 
+- [X] Verificar o formato correto em que os dados estão chegando e se há compatibilidade com os dados exigidos pelo banco de dados. 
+- [X] Verificar o formulário de submissão após a retida do 'multipart/form-data' do formulário. O formulário não faz upload de arquivos por isso não precisa ter o valor 'multipart/form-data' em um de seus atributos. 
