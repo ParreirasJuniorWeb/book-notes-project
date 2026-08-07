@@ -21,8 +21,7 @@
     <!-- Form -->
     <main class="main">
         <div class="container">
-            <form method="POST" action="<%= book ? `/books/${book.id}/update` : '/books' %>" 
-                  enctype="multipart/form-data" class="book-form">
+            <form method="POST" action="<%= book ? `/books/${book.id}/update` : '/books' %>" class="book-form">
                 
                 <div class="form-group">
                     <label><i class="fas fa-book"></i> Título do Livro</label>
