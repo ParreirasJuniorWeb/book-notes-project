@@ -27,9 +27,7 @@ const pool = new Pool({
   // Adiciona a configuração de família diretamente no cliente pg
   createConnection: (cb) => {
     const client = net.connect({
-      host: process.env.NODE_ENV === "production"
-      ? "db.czywqgcbkzwsoydxbhww.supabase.co" 
-      : pool.options.host,
+      host: "db.czywqgcbkzwsoydxbhww.supabase.co",
       port: 5432,
       family: 4 // <--- FORÇA IPV4 PURAMENTE NO SOCKET
     }, () => {
