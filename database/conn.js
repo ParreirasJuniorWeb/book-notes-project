@@ -24,12 +24,6 @@ const pool = new Pool({
   // O TRUQUE DEFINITIVO: Força o driver do Postgres (pg) a usar apenas IPv4 (família 4)
   options: '-c client_encoding=utf8',
 
-  // SSL (para produção)
-  ssl:
-    process.env.NODE_ENV === "production"
-      ? { rejectUnauthorized: false }
-      : false,
-
   // Adiciona a configuração de família diretamente no cliente pg
   createConnection: (cb) => {
     const client = net.connect({
